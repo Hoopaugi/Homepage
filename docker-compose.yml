@@ -10,7 +10,7 @@ services:
       - PORT=5000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`${HOMEPAGE_DOMAIN}`)"
+      - "traefik.http.routers.backend.rule=Host(`www.${HOMEPAGE_DOMAIN}`)"
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
     restart: unless-stopped
