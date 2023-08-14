@@ -29,3 +29,11 @@ Access traefik dashboard by navigating to http://localhost:8080
 Run production environment
 
     docker compose up -d
+
+Manually build backend image
+
+    docker build -t hoopaugi/homepage-backend:latest .
+
+    docker tag hoopaugi/homepage-backend:latest hoopaugi/homepage-backend:latest
+
+    docker push hoopaugi/homepage-backend:latest
