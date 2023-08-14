@@ -19,7 +19,7 @@ services:
     image: traefik:v3.0
     command:
       # Debugging
-      - --log.level=DEBUG
+      #- --log.level=DEBUG
       #- --api.insecure=true
       #- --api.dashboard=true
       # Entrypoints
@@ -45,14 +45,6 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - traefik_certificates:/letsencrypt
     restart: unless-stopped
-  whoami:
-    image: "traefik/whoami"
-    container_name: simple-service
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOMEPAGE_DOMAIN}`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
 
 volumes:
   traefik_certificates:

@@ -3,6 +3,8 @@ name: Node.js CI
 on:
   push:
     branches: [ main ]
+    paths:
+      - ./services/backend/**
   pull_request:
     branches: [ main ]
 
