@@ -5,18 +5,35 @@ services:
     container_name: homepage_traefik
     image: traefik:v3.0
     command:
-      #- "--log.level=DEBUG"
-      #- "--api.insecure=true"
-      - --entrypoints.web-secure.address=:443
+      # Debugging
+      - --log.level=DEBUG
+      #- --api.insecure=true
+      #- --api.dashboard=true
+      # Entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls=true
+      - --entrypoints.websecure.http.tls.certResolver=letsencrypt
+      - "--entrypoints.websecure.http.tls.domains[0].main=${HOMEPAGE_DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${HOMEPAGE_DOMAIN}"
+      # Providers
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
-      - "--certificatesresolvers.le.acme.email=${LETSENCRYPT_EMAIL}"
-      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
-      - --certificatesresolvers.le.acme.tlschallenge=true
-      #- "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # Certificate Resolvers
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare
+      - "--certificatesresolvers.letsencrypt.acme.email=${LETSENCRYPT_EMAIL}"
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+    environment:
+      - "CLOUDFLARE_EMAIL=${CLOUDFLARE_EMAIL}"
+      - "CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_TOKEN}"
     ports:
-      - "443:443"
-      #- "8080:8080"
+      - 80:80
+      - 443:443
+      #- 8080:8080
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - traefik_certificates:/letsencrypt
@@ -27,8 +44,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`${HOMEPAGE_DOMAIN}`)"
-      - "traefik.http.routers.whoami.entrypoints=web-secure"
-      - "traefik.http.routers.whoami.tls.certresolver=le"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
 
 volumes:
   traefik_certificates:
