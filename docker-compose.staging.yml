@@ -16,8 +16,9 @@ services:
     container_name: certbot
     image: certbot/certbot:latest
     volumes:
-      - certbot:/var/www/certbot/:rw
-      - letsencrypt:/etc/letsencrypt/:rw
+      - certbot:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt
+    command: certonly --webroot -w /var/www/certbot --email ${LETSENCRYPT_EMAIL} -d ${LETSENCRYPT_DOMAIN} --agree-tos
 
 volumes:
   certbot:
