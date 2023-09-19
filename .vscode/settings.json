@@ -1,0 +1,9 @@
+{
+  "eslint.workingDirectories": [
+    "services/backend",
+    "services/frontend"
+  ],
+  "[typescript]": {
+    "typescript.preferences.quoteStyle": "single"
+  }
+}
