@@ -1,0 +1,31 @@
+name: Backend
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'services/backend/**/*.ts'
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'services/backend/**/*.ts'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with: 
+          node-version: "18.12.0" # v18 LTS
+      - name: Install dependencies
+        run: npm install
+      - name: Run lint
+        run: npm run lint
+      - name: Run test
+        run: npm run test
