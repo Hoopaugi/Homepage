@@ -1,9 +1,11 @@
 import express from 'express';
 
 import healthRouter from './health';
+import pingRouter from './ping';
 
-const apiRoutes = express.Router();
+const router = express.Router();
 
-apiRoutes.use('/health', healthRouter);
+router.use('/health', healthRouter);
+router.use('/ping', pingRouter);
 
-export default apiRoutes;
+export default router;

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import handlers from './health.handlers';
+import handlers from './ping.handlers';
 
 const router = express.Router();
 
