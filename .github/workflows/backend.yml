@@ -26,7 +26,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with: 
-          node-version: "18.12.0" # v18 LTS
+          node-version: "18.x" # v18 LTS
       - name: Install dependencies
         run: npm install
       - name: Run lint
