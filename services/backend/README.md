@@ -23,3 +23,10 @@ Build production docker image
 Run production image
 
     docker run -p 5000:5000 homepage-backend-prod
+
+## Endpoints
+
+| endpoint | Description |
+| ----------- | ----------- |
+| ```/health``` | Used for docker healthcheck|
+| ```/api/ping``` | used by frontend to check that the backend is up |
